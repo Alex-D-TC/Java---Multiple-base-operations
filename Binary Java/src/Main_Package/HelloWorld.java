@@ -6,8 +6,6 @@ public class HelloWorld {
 		int x = 0, base; String line;
 		BinaryConverter converter = new BinaryConverter();
 		Scanner keyboard = new Scanner(System.in);
-
-		System.out.println("...");
 		System.out.println("Press 0 for int conversion.");
 		System.out.println("Press 1 for String conversion.");
 		System.out.println("Press 2 for Double conversion");
