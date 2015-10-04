@@ -6,6 +6,8 @@ public class HelloWorld {
 		int x = 0, base; String line;
 		BinaryConverter converter = new BinaryConverter();
 		Scanner keyboard = new Scanner(System.in);
+		System.out.println(BaseOperationHandler.multiply_by_letter("3231", 3, 4));
+		System.out.println(BaseOperationHandler.multiply_by_letter("3231", 2, 4));
 		System.out.println("Press 0 for int conversion.");
 		System.out.println("Press 1 for String conversion.");
 		System.out.println("Press 2 for Double conversion");
@@ -15,7 +17,7 @@ public class HelloWorld {
 					System.out.println("Input start number and the base of operations");
 					x = Integer.parseInt(keyboard.nextLine());
 					base = Integer.parseInt(keyboard.nextLine());
-					String convertedInt = converter.convertInt(x,base);
+					String convertedInt = converter.convertInt_10(x,base);
 					System.out.println(convertedInt);
 					System.out.println(converter.base10_convertInt(convertedInt,base));
 				}break;
