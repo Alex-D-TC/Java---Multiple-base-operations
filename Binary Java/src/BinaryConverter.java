@@ -5,13 +5,10 @@
 		public String convertInt(String x, int targetBase, int startBase) {
 			StringBuilder num = new StringBuilder();
 			String div_result;
-			while(x.length() != 1 && x.charAt(0) != 0) {
-				if(targetBase > 10) {
-					div_result = BaseOperationHandler.divide_by_letter(x, targetBase % 10, startBase);
-					div_result = BaseOperationHandler.add(div_result, BaseOperationHandler.divide_by_letter(x, targetBase / 10, startBase), startBase);
-				} else div_result = BaseOperationHandler.divide_by_letter(x, targetBase, startBase);
+			while(!(x.length() == 1 && x.charAt(0) == '0')) { // Checks if we have reached 0 in the string
+				div_result = BaseOperationHandler.divide_by_letter(x, targetBase, startBase);
 				String[] split_div_result = div_result.split(" ");
-				num.append(split_div_result[3].charAt(0));
+				num.append(split_div_result[2].charAt(0));
 				x = split_div_result[0];
 			}
 			num.reverse();

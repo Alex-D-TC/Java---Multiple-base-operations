@@ -69,10 +69,11 @@ public class BaseOperationHandler {
 			for(int i = 0; i < a.length(); i++) {
 				int c = interpret_toInt(a.charAt(i)), div;
 				div = (t * base + c) / quot;
-				if(!(div == 0 && i == 0)) rez.append(interpret_toString(div));
+				rez.append(interpret_toString(div));
 				t = (t * base + c) % quot;
 			}
-			rez.append("(" + base + ") " + "remainder " + t);
+			while(rez.length() > 1 && rez.charAt(0) == '0' ) rez.deleteCharAt(0); 
+			rez.append(" remainder " + t);
 			return rez.toString();
 		}
 }

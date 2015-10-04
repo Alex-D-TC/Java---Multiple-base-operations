@@ -5,6 +5,10 @@ public class HelloWorld {
 		int x = 0, base; String line;
 		BinaryConverter converter = new BinaryConverter();
 		Scanner keyboard = new Scanner(System.in);
+		System.out.println(BaseOperationHandler.divide_by_letter("1", 2, 10));
+		System.out.println(converter.convertInt(1234, 2));
+		System.out.println(converter.convertInt("1234", 2, 10));
+		System.out.println(BaseOperationHandler.divide_by_letter("B8E2", 11, 16));
 		System.out.println(BaseOperationHandler.add("6304", "852", 10));
 		System.out.println(BaseOperationHandler.divide_by_letter("B8E2", '5', 16));
 		System.out.println("...");
