@@ -53,6 +53,7 @@ public class BaseOperationHandler {
 		/**
 		 * Adds two numbers of the same base, regardless of what the base is <p>
 		 * Uses the intercalation algorithm to account for varying string lengths
+		 * <p> <b> If you use floating point numbers, use {@link #addWithFrac(String, String, int)} instead!
 		 * @param augend	   The first number of the operation.
 		 * @param addend    The second number of the operation.
 		 * @param base The base in which the operation is handles.
@@ -85,6 +86,23 @@ public class BaseOperationHandler {
 			}
 			if(t != 0) res.append(BaseOperationHandler.interpret_toString(t));
 			return res.reverse().toString();
+		}
+		/**
+		 * Allows the addition of floating point numbers in any given base. 
+		 * <p> The floating point numbers must be of the following form: <b> IntegerPart.FractionalPart
+		 * <p> For more information, see: {@link #add(String, String, int)}
+		 */
+		public static String addWithFrac(String augend, String addend, int base) {
+			String[] augendSplit = augend.split("\\.");
+			String[] addendSplit = addend.split("\\.");
+			String intPart = BaseOperationHandler.add(augendSplit[0], addendSplit[0], base);
+			String subPart = BaseOperationHandler.add(augendSplit.length == 2 ? augendSplit[1] : "0", addendSplit.length == 2 ? addendSplit[1] : "0", base);
+			if(subPart.length() > Math.max(augendSplit.length == 2 ? augendSplit[1].length() : 0, addendSplit.length == 2 ? addendSplit[1].length() : 0)) {
+				String carryString = Character.toString(subPart.charAt(0));
+				intPart = BaseOperationHandler.add(intPart, carryString, base);
+				subPart = subPart.substring(1);
+			}
+			return intPart.concat(".").concat(subPart);
 		}
 		
 		/**

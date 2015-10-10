@@ -4,10 +4,8 @@ import java.util.Scanner;
 public class HelloWorld {	
 	public static void main(String[] args) {
 		int x = 0, base; String line;
-		BinaryConverter converter = new BinaryConverter();
+		Base_Conversion_Handler converter = new Base_Conversion_Handler();
 		Scanner keyboard = new Scanner(System.in);
-		System.out.println(BaseOperationHandler.multiply_by_letter("3231", 3, 4));
-		System.out.println(BaseOperationHandler.multiply_by_letter("3231", 2, 4));
 		System.out.println("Press 0 for int conversion.");
 		System.out.println("Press 1 for String conversion.");
 		System.out.println("Press 2 for Double conversion");
