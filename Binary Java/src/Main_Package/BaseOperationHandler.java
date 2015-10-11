@@ -16,6 +16,28 @@ public class BaseOperationHandler {
 		}
 		
 		/**
+		 * Removes the unnecesary 0's from a given number.
+		 * <p> The given 0's are the ones in front of the Integer part, and the ones at the end of the Fractionary part
+		 * <p> Example: 
+		 * 	<p>	003.400 -> 3.4 ; 3.040 -> 3.04 ; 3.14 -> 3.14
+		 * @param toNormalize The number to be normalized
+		 * @return Returns the normalized number. Returns the given number if the number doesn't need to be normalized
+		 */
+		public static String normalize(String toNormalize) {
+			StringBuilder temp = new StringBuilder();
+			temp.append(toNormalize);
+			while((char) temp.charAt(0) == '0') temp.deleteCharAt(0);
+			if((char) temp.charAt(0) == '.') {
+				temp.insert(0, '0');
+			}
+			if(temp.indexOf(".") != -1) {
+				while((char) temp.charAt(temp.length() - 1) == '0') temp.deleteCharAt(temp.length() - 1);
+				if((char) temp.charAt(temp.length() - 1) == '.') temp.deleteCharAt(temp.length() - 1);
+			}
+			return temp.toString();
+		}
+		
+		/**
 		 * Converts an integer into it's corresponding character, for use in numeral representation beyond the decimal base.
 		 * @param toConvert The integer to convert.
 		 * @return Returns the corresponding character of the given integer. <p>
@@ -41,7 +63,7 @@ public class BaseOperationHandler {
 		public static int compare(String target, String comp) {
 			if(target.length() > comp.length()) return 1;
 			else if(target.length() < comp.length()) return 0;
-			else for(int i = target.length(); i > 0; i--) {
+			else for(int i = 0; i <= target.length() - 1; i++) {
 				int targetCode = BaseOperationHandler.interpret_toInt(target.charAt(i));
 				int compCode = BaseOperationHandler.interpret_toInt(comp.charAt(i));
 				if(targetCode > compCode) return 1;
@@ -102,7 +124,7 @@ public class BaseOperationHandler {
 				intPart = BaseOperationHandler.add(intPart, carryString, base);
 				subPart = subPart.substring(1);
 			}
-			return intPart.concat(".").concat(subPart);
+			return BaseOperationHandler.normalize(intPart.concat(".").concat(subPart));
 		}
 		
 		/**
@@ -145,6 +167,43 @@ public class BaseOperationHandler {
 					j--; t = 0;
 				}
 				return result.reverse().toString();
+		}
+		
+		public static String subWithFrac(String minuend, String subtrahend, int base) {
+			String[] minuendSplit = minuend.split("\\.");
+			String[] subtrahendSplit = subtrahend.split("\\.");
+			switch(compare(minuendSplit[0], subtrahendSplit[0])) {
+				case 0: {
+					String[] aux = minuendSplit;
+					minuendSplit = subtrahendSplit;
+					subtrahendSplit = aux;
+				} break;
+				case 2: {
+					if(minuendSplit.length < subtrahendSplit.length) {
+						String[] aux = minuendSplit;
+						minuendSplit = subtrahendSplit;
+						subtrahendSplit = aux;
+					} else if(minuendSplit.length == subtrahendSplit.length) {
+						switch(compare(minuendSplit[1], subtrahendSplit[1])) {
+							case 0: {
+								String[] aux = minuendSplit;
+								minuendSplit = subtrahendSplit;
+								subtrahendSplit = aux;
+							} break;
+							case 2: return "0";
+						}
+					}
+				} break;
+			}
+			int maxFloat = Math.max(minuendSplit[0].length(), subtrahendSplit[0].length());
+			minuend = minuendSplit[0] + (minuendSplit.length == 2 ? minuendSplit[1] : "");
+			subtrahend = subtrahendSplit[0] + (subtrahendSplit.length == 2 ? subtrahendSplit[1] : "");
+			while(minuend.length() < subtrahend.length()) minuend = minuend.concat("0");
+			while(subtrahend.length() < minuend.length()) subtrahend = subtrahend.concat("0");
+			StringBuilder temp = new StringBuilder();
+			temp.append(BaseOperationHandler.subtract(minuend, subtrahend, base));
+			temp.insert(maxFloat, ".");
+			return BaseOperationHandler.normalize(temp.toString());
 		}
 		
 		/**

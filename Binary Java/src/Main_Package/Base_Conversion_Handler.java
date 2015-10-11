@@ -3,12 +3,17 @@ package Main_Package;
 		public Base_Conversion_Handler() {}
 		
 		public String convertSubstitution(String number, int startBase, int targetBase) {
-			String intPart = "", fracPart = "";
-			int baseIndex = number.indexOf(','), basePow = 1;
-			if(baseIndex == -1) baseIndex = number.length() - 1;
-			for(int i = baseIndex; i >= 0; i--) {
-				intPart = BaseOperationHandler.addWithFrac(intPart, BaseOperationHandler.interpret_toString((BaseOperationHandler.interpret_toInt(number.charAt(i)) * basePow)) , targetBase);
-				basePow *= basePow;
+			String intPart = "0", fracPart = "0";
+			int baseIndex = number.indexOf('.');
+			float basePow = 1;
+			if(baseIndex == -1) baseIndex = number.length();
+			for(int i = baseIndex - 1; i >= 0; i--) {
+				intPart = BaseOperationHandler.add(intPart, BaseOperationHandler.interpret_toString((BaseOperationHandler.interpret_toInt(number.charAt(i)) * (int)basePow)) , targetBase);
+				basePow *= startBase;
+			} basePow = (float) 1 / startBase;
+			for(int i = baseIndex + 1; i < number.length(); i++) {
+				fracPart = BaseOperationHandler.addWithFrac(fracPart, Float.toString(BaseOperationHandler.interpret_toInt(number.charAt(i)) * basePow), targetBase);
+				basePow /= (float) startBase;
 			}
 			return BaseOperationHandler.addWithFrac(intPart, fracPart, targetBase);
 		}
