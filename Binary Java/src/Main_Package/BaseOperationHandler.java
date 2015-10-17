@@ -24,6 +24,7 @@ public class BaseOperationHandler {
 		 * @return Returns the normalized number. Returns the given number if the number doesn't need to be normalized
 		 */
 		public static String normalize(String toNormalize) {
+			if(toNormalize.equals("0")) return toNormalize;
 			StringBuilder temp = new StringBuilder();
 			temp.append(toNormalize);
 			while((char) temp.charAt(0) == '0') temp.deleteCharAt(0);
@@ -169,6 +170,13 @@ public class BaseOperationHandler {
 				return result.reverse().toString();
 		}
 		
+		/** Allows the subtractions
+		 * 
+		 * @param minuend
+		 * @param subtrahend
+		 * @param base
+		 * @return
+		 */
 		public static String subWithFrac(String minuend, String subtrahend, int base) {
 			String[] minuendSplit = minuend.split("\\.");
 			String[] subtrahendSplit = subtrahend.split("\\.");
@@ -241,8 +249,22 @@ public class BaseOperationHandler {
 				rez.append(interpret_toString(div));
 				t = (t * base + c) % divisor;
 			}
-			while(rez.length() > 1 && rez.charAt(0) == '0' ) rez.deleteCharAt(0); 
+			rez.replace(0, rez.length(), BaseOperationHandler.normalize(rez.toString()));
 			rez.append(" remainder " + t);
 			return rez.toString();
+		}
+		
+		public static String multiply(String number, String mult, int base) {
+			String resultString = "0";
+			for(int i = mult.length() - 1; i >= 0; i--) {
+				String multResult = BaseOperationHandler.multiply_by_letter(number, BaseOperationHandler.interpret_toInt(mult.charAt(i)), base);
+				int add_count = mult.length() - 1 - i;
+				while(add_count > 0) {
+					multResult = multResult.concat("0");
+					--add_count;
+				}
+				resultString = BaseOperationHandler.add(resultString, multResult, base);
+			}
+			return resultString;
 		}
 }
